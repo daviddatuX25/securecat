@@ -23,21 +23,26 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## SecureCAT development setup
 
-**Recommended: Docker (Laravel Sail)** — no need to install PostgreSQL, Redis, or PHP extensions locally. On Windows use [WSL2](https://docs.microsoft.com/en-us/windows/wsl/) or Docker Desktop and run Sail from a WSL or Git Bash terminal in `app/`.
+**Docker on Windows (all via docker exec)** — Laravel, PostgreSQL, and Redis run in Docker. Run all commands by exec’ing into your **app container** (replace `<app-container>` with your container name, e.g. `securecat-app` or `app`):
 
-From the `app/` directory:
+```bash
+docker exec -it <app-container> php artisan key:generate
+docker exec -it <app-container> php artisan migrate
+docker exec -it <app-container> php artisan db:seed
+```
 
-1. **Copy environment:** `cp .env.example .env` (or copy and edit). `.env.example` is already set for Sail (`DB_HOST=pgsql`, `REDIS_HOST=redis`, `DB_PASSWORD=password`).
-2. **Application key:** `./vendor/bin/sail artisan key:generate` (or run `php artisan key:generate` if PHP is local).
-3. **Start containers:** `./vendor/bin/sail up` (or `sail up -d` in background). First run will build images and start PostgreSQL and Redis.
-4. **Migrations:** `./vendor/bin/sail artisan migrate`.
-5. **Verify (Phase 0):** `./vendor/bin/sail artisan route:list` · `./vendor/bin/sail artisan securecat:verify-env` · open [http://localhost](http://localhost) (or the port in `APP_PORT`) for the welcome page.
+- **Seed (required for admin + demo data):** The DB has no users until you seed. Run `docker exec -it <app-container> php artisan db:seed` (or `migrate:fresh --seed` to reset and seed). Creates admin, staff, proctor and demo periods/courses. **Login:** `admin@example.com` / `password`. Staff: `staff@example.com`, Proctor: `proctor@example.com` (same password).
+- Ensure `.env` inside the app container has `DB_HOST`, `REDIS_HOST`, etc. pointing at your Postgres/Redis containers (e.g. service names from docker-compose).
+
+**Alternative: Laravel Sail** (WSL or Git Bash on Windows):
+
+- Use Sail if you prefer: `./vendor/bin/sail up`, `./vendor/bin/sail artisan migrate`, `./vendor/bin/sail artisan db:seed`. Login as above.
 
 **Without Docker** (local PHP, PostgreSQL, Redis):
 
 - Install PHP with `pdo_pgsql` and `redis` (phpredis) extensions (or use `composer require predis/predis` for Redis).
 - Create the DB (e.g. `createdb securecat`), set `DB_HOST=127.0.0.1`, `REDIS_HOST=127.0.0.1`, and `DB_PASSWORD` in `.env`.
-- Then: `composer install`, `npm install && npm run build`, `php artisan key:generate`, `php artisan migrate`, `php artisan serve`.
+- Then: `composer install`, `npm install && npm run build`, `php artisan key:generate`, `php artisan migrate`, `php artisan db:seed` (or `migrate:fresh --seed`). **Login for testing:** `admin@example.com` / `password`. Then `php artisan serve`.
 
 ## Learning Laravel
 

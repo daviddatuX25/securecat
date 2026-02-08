@@ -47,6 +47,13 @@ Execute [PHASE-1-core-ops.md](phases/PHASE-1-core-ops.md) §7 Demo Script end-to
 9. Admin: open audit log; entries for create period, encode, approve, assign, scan.
 10. Staff tries `/admin/audit-log` → 403; Proctor tries `/staff/encode` → 403.
 
+### UI testing and visual review
+
+- **UI testing:** For UI work, supplement automated tests with manual browser testing at checkpoints; see `.cursor/rules/phase-delivery-and-agent-practices.mdc`.
+- **Real seeders:** For local/demo and visual review, run real seeders (e.g. `php artisan db:seed`) so the app has realistic data; not required in CI on every run.
+- **Visual review:** Checkpoints (e.g. after UI tasks, before phase demo) are documented in phase-delivery rules; ensure there is a clear point where visual review happens.
+- **Code review:** At phase completion and when many modules are touched, do a code review (quality, fit, security); see release checklist and phase-delivery rules.
+
 ---
 
 ## 2. Phase 1 Security Checks

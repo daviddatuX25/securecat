@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\AcceptBearerAsSession::class,
         ]);
         $middleware->alias([
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'rbac' => \App\Http\Middleware\EnsureAuthorizedRole::class,
         ]);
     })

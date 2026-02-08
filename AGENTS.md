@@ -1,5 +1,10 @@
 # Agent Instructions
 
+## Local dev environment
+
+- **Docker on Windows, all via docker exec** — Everything runs in containers. Laravel/PHP, PostgreSQL, Redis are all in Docker. Run artisan and tests by exec’ing into the app container (e.g. `docker exec -it <app-container> php artisan db:seed`). Not Sail, not host PHP.
+- **Database has no users by default** — For local testing or browser/API tests that hit the real DB, run **`docker exec -it <app-container> php artisan db:seed`** (or `migrate:fresh --seed`) so the database has admin, staff, proctor, and demo periods/courses. Login: **admin@example.com** / **password**.
+
 ## Issue Tracking
 
 This project uses **bd (beads)** for issue tracking.

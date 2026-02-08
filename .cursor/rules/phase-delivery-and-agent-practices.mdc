@@ -1,0 +1,39 @@
+---
+description: Phase-based delivery with beads (bd) and agentic AI best practices
+alwaysApply: true
+---
+
+# Phase Delivery + Agent Practices
+
+## Phase-first delivery
+
+- **Scope by phase.** Current delivery is Phase 1. Authoritative scope: `docs/plans/phases/PHASE-1-scope-freeze.md`. Backlog: `docs/plans/backlog/PHASE-1-TASKS.md`, `PHASE-1-STORIES.md`.
+- **Contract over guesswork.** Before implementing or suggesting API/UI behavior, read: `docs/architecture/08-api-spec-phase1.md`, `09-ui-routes-phase1.md`, `04-data-model.md`. Do not invent endpoints, request shapes, or routes not specified there for Phase 1.
+- **Beads = source of work.** Session work comes from bd. See `.cursor/rules/beads-workflow.mdc` for commands. At session start: `bd ready` → `bd show <id>` → `bd update <id> --status in_progress`. At session end: close done work, create issues for follow-up, `bd sync`, then git pull/rebase/push. Work is not complete until `git push` succeeds.
+
+## Agent best practices
+
+### Clarify before acting
+
+- If the user’s request could be Phase 1 or a later phase, **ask**: e.g. “Should this be Phase 1 only, or should I include Phase 2 (e.g. CSV import)?”
+- If acceptance criteria or edge case is unclear, **ask once** rather than assume: e.g. “For ‘wrong session’ scan: should the API return 403 or 200 with result=invalid?”
+- When the user says “do the next task” or “continue Phase 1”, **check** `bd ready` and the backlog so you’re aligned with the actual next unblocked item.
+
+### Suggest, don’t silently expand scope
+
+- **Code review style:** Prefer “Consider X because Y” or “Per 05-security-controls, we should Z” over making security or structural changes without calling them out. If you change behavior beyond the immediate request, say what and why.
+- **Out-of-scope:** If an idea is Phase 2+ (e.g. CSV import, MFA, hash-chained audit), do not implement it in Phase 1. Suggest: “That’s Phase 2; we can add a bd issue for it and keep Phase 1 to manual encoding only.”
+- **Trace to docs:** When proposing code or behavior, reference the spec: “Per 08-api-spec-phase1, POST /api/applications/:id/approve accepts optional exam_session_id; here’s the implementation.”
+
+### Leave the session better than you found it
+
+- **Hand off:** Before ending, summarize: what was completed (and which bd ids were closed), what’s in progress, what’s next, and any blockers. If you created new bd issues, list them so the next session can use `bd ready`.
+- **Quality:** If code changed, remind or run the relevant quality gates (tests, linter) and reference `docs/plans/QUALITY-GATES.md` for the Phase 1 checklist.
+
+### Testing and review practices
+
+- **Default:** Normal automated tests (unit, feature, API) remain the primary gate; run on code change as usual.
+- **When UI is in scope:** In addition to automated tests, use **manual browser testing** at defined points—e.g. after completing a UI task or before a phase demo. Not on every commit; use at checkpoints.
+- **DB and seeders:** Use **real seeders** occasionally (e.g. before visual review, before phase demo, or when testing full flow in browser) so the app can be reviewed with realistic data. CI/default test runs can keep using in-memory or minimal data; seeders are for local/demo and visual review.
+- **Visual review checkpoints:** When UI changed, call out **“ready for visual review”** in hand-off. Visual/manual review is expected after a UI task is closed, at UI milestones, or before phase sign-off.
+- **Phase / multi-module code review:** When a phase spans many modules or before marking a phase complete, perform a **code review** for quality, consistency, and fit (architecture, security, style). For larger or multi-module work, schedule a review after a batch of related tasks rather than only at phase end.
