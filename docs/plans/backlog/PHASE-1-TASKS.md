@@ -1,6 +1,6 @@
 # Phase 1 — Tasks
 
-> Implementation-ready tasks for Phase 1. Each task ties to stories in [PHASE-1-STORIES.md](PHASE-1-STORIES.md).
+> Implementation-ready tasks for Phase 1. Each task ties to stories in [PHASE-1-STORIES.md](PHASE-1-STORIES.md). **Prerequisite:** [PHASE-0-TASKS.md](PHASE-0-TASKS.md) (Laravel + TALL bootstrap) must be complete.
 
 **Phase:** 1
 

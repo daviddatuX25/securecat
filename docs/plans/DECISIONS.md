@@ -35,12 +35,23 @@ Lightweight log of key decisions made during planning and development. Each entr
 
 ---
 
-## ADR-003: (Reserved) Framework / Stack Selection
+## ADR-003: Laravel + TALL Stack
 
-**Date:** TBD
-**Status:** Pending
+**Date:** 2026-02-08
+**Status:** Accepted
 
-**Context:** To be filled when the team selects the implementation framework.
+**Context:** Phase 1 development requires a concrete framework choice (deferred in ADR-002). The team selected Laravel and the TALL stack for implementation.
+
+**Decision:** Use Laravel as the backend framework and the TALL stack for the full-stack implementation:
+- **T**ailwind CSS — utility-first styling
+- **A**lpine.js — lightweight client-side interactivity
+- **L**aravel — backend framework (routing, Eloquent ORM, auth, queues, etc.)
+- **L**ivewire — server-rendered dynamic components without writing JavaScript
+
+**Consequences:**
+- Architecture docs and Phase 1 implementation will use Laravel conventions (blade, Eloquent, migrations, etc.).
+- UI components will be built with Livewire + Alpine + Tailwind.
+- This satisfies ADR-002’s requirement to finalize the stack before coding.
 
 ---
 

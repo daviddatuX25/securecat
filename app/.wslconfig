@@ -1,0 +1,3 @@
+[wsl2]
+memory=8GB      # Limits VM memory; prevents Windows from "starving" the VM
+processors=4    # Sets the number of CPU cores
