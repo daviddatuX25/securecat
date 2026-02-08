@@ -32,6 +32,8 @@ return [
     |
     */
 
+    // Per 05-security-controls SC-03: configurable TTL. When driver=redis, Laravel stores
+    // session:{id} in Redis with this lifetime (minutes). Per T1.1.3 / PHASE-1 scope.
     'lifetime' => (int) env('SESSION_LIFETIME', 120),
 
     'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
