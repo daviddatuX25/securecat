@@ -17,7 +17,13 @@ Route::middleware(['web', 'throttle:5,1'])->group(function (): void {
     Route::post('/auth/login', [AuthController::class, 'login']);
 });
 
-// Logout: auth required, CSRF required (web middleware)
-Route::middleware(['web', 'auth'])->group(function (): void {
+// Protected API routes: auth + RBAC + CSRF
+Route::middleware(['web', 'auth', 'rbac'])->group(function (): void {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    // Dashboard stub (T5.3.1) — Admin only; full impl later
+    Route::get('/dashboard', fn () => response()->json([
+        'pending_applications_count' => 0,
+        'upcoming_sessions' => [],
+    ]));
 });

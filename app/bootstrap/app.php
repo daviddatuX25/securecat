@@ -18,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(prepend: [
             \App\Http\Middleware\AcceptBearerAsSession::class,
         ]);
+        $middleware->alias([
+            'rbac' => \App\Http\Middleware\EnsureAuthorizedRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
