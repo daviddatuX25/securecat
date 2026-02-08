@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,15 +13,27 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    /** Role enum values per 04-data-model. */
+    public const ROLE_ADMIN = 'admin';
+
+    public const ROLE_STAFF = 'staff';
+
+    public const ROLE_PROCTOR = 'proctor';
+
+    public const ROLE_EXAMINEE = 'examinee';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
-        'password',
+        'password_hash',
+        'role',
+        'first_name',
+        'last_name',
+        'is_active',
     ];
 
     /**
@@ -29,9 +42,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password_hash',
     ];
+
+    /**
+     * Get the name of the password attribute for authentication.
+     * Phase 1 uses password_hash per 04-data-model.
+     */
+    public function getAuthPasswordName(): string
+    {
+        return 'password_hash';
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -41,8 +62,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password_hash' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 }

@@ -1,0 +1,30 @@
+---
+description: Laravel migration strategy during development
+globs: app/database/migrations/*.php
+alwaysApply: false
+---
+
+# Laravel Migrations (Development)
+
+During **development**, alter existing migrations in-place. Do not create new migrations to modify tables that already have migrations.
+
+## Why
+
+- Keeps schema clean and migrations reflective of the intended state
+- Avoids migration sprawl before any production deployment
+- Simplifies `migrate:fresh` and onboarding new devs
+
+## Do
+
+- Edit the existing migration file to add/remove/change columns
+- Run `php artisan migrate:fresh` (or Sail equivalent) after changes
+- Update models to match schema changes
+
+## Don't
+
+- Add a new migration to alter a table that was created in an earlier migration
+- Keep both "create" and "modify" migrations for the same table in dev
+
+## When to Switch
+
+Once the app has **production data** or shared environments where migrations must run incrementally, switch to the standard approach: add new migrations for schema changes instead of editing existing ones.
