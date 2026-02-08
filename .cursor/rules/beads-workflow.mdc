@@ -1,0 +1,33 @@
+---
+description: Use beads (bd) for issue tracking and session workflow
+alwaysApply: true
+---
+
+# Beads (bd) Workflow
+
+Use **bd** for persistent work tracking. Use TodoWrite only for single-session task lists.
+
+## When to use bd vs TodoWrite
+- **bd**: Multi-session work, dependencies, discovered follow-up, anything that should outlive the session
+- **TodoWrite**: Simple in-session execution checklist (3–5 steps for one session)
+
+## Core commands
+- `bd ready` – Find unblocked work
+- `bd show <id>` – Issue details and dependencies
+- `bd update <id> --status in_progress` – Claim work
+- `bd create --title="..." --type=task|bug|feature --priority=2` – New issue (priority 0–4, not "high"/"medium")
+- `bd close <id>` – Mark complete; `bd close <id1> <id2>` for multiple
+- `bd dep add <issue> <depends-on>` – Add dependency
+- **Do not use** `bd edit` – it opens an editor and blocks agents
+
+## Session start
+Check `bd ready` for available work. Use `bd show <id>` then `bd update <id> --status in_progress` to claim.
+
+## Session end (Landing the Plane)
+Before saying "done":
+1. Close completed work: `bd close <id> ...`
+2. Create issues for any remaining/follow-up work
+3. Sync: `bd sync` (or `bd sync --flush-only` if no git remote)
+4. Then complete git workflow: pull/rebase, push; work is not complete until `git push` succeeds.
+
+Run `bd prime` for full, up-to-date workflow context.

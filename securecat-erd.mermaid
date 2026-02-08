@@ -1,0 +1,342 @@
+erDiagram
+    %% User Management
+    USER {
+        int user_id PK
+        string username UK
+        string password_hash
+        string email UK
+        string role "admin/staff/proctor/examinee/counselor"
+        boolean is_active
+        boolean password_changed
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% Security - Login Audit
+    LOGIN_LOG {
+        int login_id PK
+        int user_id FK
+        string username_attempt
+        string login_status "success/failed/locked"
+        string device_name
+        string browser_info
+        string ip_address
+        string location
+        datetime attempt_time
+        text failure_reason
+    }
+
+    %% Exam Period/Season
+    EXAM_PERIOD {
+        int period_id PK
+        string period_name "e.g. A.Y. 2025-2026"
+        string academic_year
+        int semester "1/2/summer"
+        date start_date
+        date end_date
+        boolean is_active
+        datetime created_at
+    }
+
+    %% Examinee/Applicant
+    EXAMINEE {
+        int examinee_id PK
+        int user_id FK "nullable"
+        int period_id FK
+        string application_number
+        string first_name
+        string middle_name "nullable"
+        string last_name
+        date date_of_birth "nullable"
+        string gender "nullable"
+        string contact_number "nullable"
+        string email
+        string address "nullable"
+        string course_preference_1 "nullable"
+        string course_preference_2 "nullable"
+        string course_preference_3 "nullable"
+        datetime created_at
+    }
+
+    %% Examination Schedule
+    EXAM_SCHEDULE {
+        int schedule_id PK
+        int period_id FK
+        string exam_name
+        datetime start_datetime
+        datetime end_datetime
+        int duration_minutes
+        int total_capacity
+        string status "draft/published/completed/cancelled"
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% Exam Subjects/Subtests
+    EXAM_SUBJECT {
+        int subject_id PK
+        string subject_code UK
+        string subject_name
+        string description
+        int max_raw_score
+        int time_limit_minutes
+        int display_order
+        boolean is_active
+    }
+
+    %% Subject Score Conversion Table
+    SUBJECT_SCORE_RANGE {
+        int range_id PK
+        int subject_id FK
+        int raw_score_min
+        int raw_score_max
+        decimal converted_score
+        string grade_equivalent "optional"
+        datetime created_at
+    }
+
+    %% Room Assignment
+    EXAM_ROOM {
+        int room_id PK
+        int schedule_id FK
+        string room_name
+        string building
+        int capacity
+        datetime created_at
+    }
+
+    %% Examinee Assignment to Schedule
+    EXAMINEE_SCHEDULE {
+        int assignment_id PK
+        int examinee_id FK
+        int schedule_id FK
+        int room_id FK
+        string seat_number
+        string qr_code UK
+        datetime assigned_at
+    }
+
+    %% Attendance Tracking (QR or Manual)
+    ATTENDANCE {
+        int attendance_id PK
+        int assignment_id FK
+        int proctor_id FK
+        string entry_method "qr_scan/manual_input"
+        datetime time_in
+        datetime time_out
+        int late_minutes
+        text remarks
+        datetime created_at
+    }
+
+    %% Bulk Attendance Control
+    BULK_ATTENDANCE_LOG {
+        int bulk_log_id PK
+        int schedule_id FK
+        int room_id FK
+        int proctor_id FK
+        string action_type "bulk_start/bulk_end"
+        datetime action_time
+        int affected_count
+        datetime created_at
+    }
+
+    %% Checking Staff Assignment
+    CHECKING_STAFF {
+        int checking_staff_id PK
+        int staff_id FK
+        int schedule_id FK
+        string assignment_type "checker/validator"
+        datetime assigned_at
+    }
+
+    %% Raw Examination Scores per Subject
+    EXAM_SCORE {
+        int score_id PK
+        int examinee_id FK
+        int schedule_id FK
+        int subject_id FK
+        int raw_score
+        string input_method "manual/bulk_import"
+        int checked_by FK "staff who checked"
+        datetime checked_at
+        int validated_by FK "admin who validated"
+        datetime validated_at
+        boolean is_validated
+        datetime created_at
+    }
+
+    %% Converted Result per Subject
+    SUBJECT_RESULT {
+        int subject_result_id PK
+        int examinee_id FK
+        int schedule_id FK
+        int subject_id FK
+        int raw_score
+        decimal converted_score
+        string grade_equivalent
+        datetime created_at
+    }
+
+    %% Overall Result
+    RESULT {
+        int result_id PK
+        int examinee_id FK
+        int schedule_id FK
+        decimal total_converted_score
+        decimal average_score
+        string result_status "passed/failed/conditional"
+        datetime release_date
+        boolean is_published
+        text remarks
+        datetime created_at
+    }
+
+    %% Subject-Based Insight/Recommendation (Reference for Counselor)
+    SUBJECT_INSIGHT {
+        int insight_id PK
+        int subject_id FK
+        decimal score_range_min
+        decimal score_range_max
+        text insight_text
+        text recommendation_note
+        boolean is_active
+        datetime created_at
+    }
+
+    %% Security - Consolidated Activity Audit Log
+    AUDIT_LOG {
+        int log_id PK
+        int user_id FK
+        string action_type "create/update/delete/view/import/validate/release"
+        string module_name "examinee/schedule/score/result/insight"
+        int record_id
+        text action_details "JSON or message"
+        text old_value "JSON"
+        text new_value "JSON"
+        string device_name
+        string ip_address
+        string location
+        datetime timestamp
+    }
+
+    %% Staff Profile
+    STAFF {
+        int staff_id PK
+        int user_id FK
+        string first_name
+        string last_name
+        string department
+        string contact_number
+        datetime created_at
+    }
+
+    %% Proctor Profile
+    PROCTOR {
+        int proctor_id PK
+        int user_id FK
+        string first_name
+        string last_name
+        string contact_number
+        datetime created_at
+    }
+
+    %% Counselor Profile
+    COUNSELOR {
+        int counselor_id PK
+        int user_id FK
+        string first_name
+        string last_name
+        string department
+        string contact_number
+        datetime created_at
+    }
+
+    %% Proctor Schedule Assignment
+    PROCTOR_ASSIGNMENT {
+        int proctor_assignment_id PK
+        int proctor_id FK
+        int schedule_id FK
+        int room_id FK
+        datetime assigned_at
+    }
+
+    %% Email Notification Log
+    EMAIL_LOG {
+        int email_id PK
+        int examinee_id FK
+        string email_type "registration/schedule/result"
+        string recipient_email
+        string subject
+        text body
+        string status "sent/failed/pending"
+        datetime sent_at
+        text error_message
+    }
+
+    %% System Configuration
+    SYSTEM_CONFIG {
+        int config_id PK
+        string config_key UK
+        string config_value
+        string description
+        datetime updated_at
+    }
+
+    %% ========== RELATIONSHIPS ==========
+    
+    %% User Relationships
+    USER ||--o| EXAMINEE : "may_have"
+    USER ||--o| STAFF : "is"
+    USER ||--o| PROCTOR : "is"
+    USER ||--o| COUNSELOR : "is"
+    USER ||--o{ LOGIN_LOG : "logs"
+    USER ||--o{ AUDIT_LOG : "performs"
+    
+    %% Exam Period Relationships
+    EXAM_PERIOD ||--o{ EXAMINEE : "contains"
+    EXAM_PERIOD ||--o{ EXAM_SCHEDULE : "has"
+    
+    %% Examinee Relationships
+    EXAMINEE ||--o{ EXAMINEE_SCHEDULE : "assigned_to"
+    EXAMINEE ||--o{ EXAM_SCORE : "receives"
+    EXAMINEE ||--o{ SUBJECT_RESULT : "has_subject_result"
+    EXAMINEE ||--o| RESULT : "has_overall_result"
+    EXAMINEE ||--o{ EMAIL_LOG : "receives"
+    
+    %% Schedule Relationships
+    EXAM_SCHEDULE ||--o{ EXAM_ROOM : "has"
+    EXAM_SCHEDULE ||--o{ EXAMINEE_SCHEDULE : "includes"
+    EXAM_SCHEDULE ||--o{ EXAM_SCORE : "generates"
+    EXAM_SCHEDULE ||--o{ SUBJECT_RESULT : "produces_subject_results"
+    EXAM_SCHEDULE ||--o{ RESULT : "produces_overall_results"
+    EXAM_SCHEDULE ||--o{ PROCTOR_ASSIGNMENT : "has"
+    EXAM_SCHEDULE ||--o{ CHECKING_STAFF : "assigns"
+    EXAM_SCHEDULE ||--o{ BULK_ATTENDANCE_LOG : "tracks"
+    
+    %% Subject Relationships
+    EXAM_SUBJECT ||--o{ SUBJECT_SCORE_RANGE : "has_conversion"
+    EXAM_SUBJECT ||--o{ EXAM_SCORE : "measured_by"
+    EXAM_SUBJECT ||--o{ SUBJECT_RESULT : "converted_to"
+    EXAM_SUBJECT ||--o{ SUBJECT_INSIGHT : "has_reference_insights"
+    
+    %% Score Conversion
+    SUBJECT_SCORE_RANGE ||--o{ SUBJECT_RESULT : "converts_to"
+    
+    %% Room Relationships
+    EXAM_ROOM ||--o{ EXAMINEE_SCHEDULE : "hosts"
+    EXAM_ROOM ||--o{ PROCTOR_ASSIGNMENT : "monitored_by"
+    EXAM_ROOM ||--o{ BULK_ATTENDANCE_LOG : "tracks"
+    
+    %% Examinee Schedule Relationships
+    EXAMINEE_SCHEDULE ||--o{ ATTENDANCE : "tracked_by"
+    
+    %% Staff Relationships
+    STAFF ||--o{ CHECKING_STAFF : "assigned_as"
+    STAFF ||--o{ EXAM_SCORE : "checks"
+    STAFF ||--o{ EXAM_SCORE : "validates"
+    
+    %% Proctor Relationships
+    PROCTOR ||--o{ ATTENDANCE : "records"
+    PROCTOR ||--o{ BULK_ATTENDANCE_LOG : "performs"
+    PROCTOR ||--o{ PROCTOR_ASSIGNMENT : "assigned_in"
