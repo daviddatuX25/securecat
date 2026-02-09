@@ -1,0 +1,269 @@
+---
+description: Frontend design system — DaisyUI 5 + Tailwind CSS 4 component-first approach
+alwaysApply: true
+---
+
+# Frontend Design System
+
+DaisyUI 5 is the primary component library. Tailwind CSS 4 utilities customize and extend it.
+Zero external CSS. No `@apply`. No hand-rolled color values when a semantic token exists.
+
+## Stack Versions
+
+- **Tailwind CSS 4.0** via `@tailwindcss/vite` plugin
+- **DaisyUI 5.x** via `@plugin "daisyui"` in `app.css`
+- **Alpine.js** for lightweight JS interactions
+- **Livewire 3.5+** for server-driven dynamic components
+
+## Component Priority Order
+
+When building UI, follow this hierarchy — exhaust each level before dropping to the next:
+
+1. **DaisyUI component classes** — `btn`, `card`, `table`, `alert`, `modal`, `input`, `select`, etc.
+2. **Tailwind utilities for customization** — extend DaisyUI with spacing, sizing, responsive breakpoints (`btn btn-primary px-8 md:btn-lg`)
+3. **Reusable Blade components** — wrap repeated DaisyUI patterns in `resources/views/components/` (e.g., `<x-form-input>`, `<x-data-table>`)
+4. **Livewire components** — use for interactive/stateful UI that needs server roundtrips
+5. **Raw CSS** — only as a last resort; prefer Tailwind utilities; never use `@apply`
+
+## DaisyUI 5 Component Quick Reference
+
+### Actions
+- **Button:** `btn`, `btn-primary`, `btn-secondary`, `btn-accent`, `btn-ghost`, `btn-outline`, `btn-link`
+- **Sizes:** `btn-xs`, `btn-sm`, `btn-md`, `btn-lg`
+- **Dropdown:** `dropdown`, `dropdown-content`
+- **Modal:** `modal`, `modal-box`, `modal-action`; open via `<dialog>` element or Alpine
+- **Swap:** `swap`, `swap-on`, `swap-off`
+
+### Data Input (DaisyUI 5 patterns)
+- **Input:** `input` (has border by default); use `input-ghost` to remove border
+- **Select:** `select` (has border by default); use `select-ghost` to remove border
+- **Textarea:** `textarea` (has border by default); use `textarea-ghost` to remove border
+- **Checkbox:** `checkbox`, `checkbox-primary`, etc.
+- **Radio:** `radio`, `radio-primary`, etc.
+- **Toggle:** `toggle`, `toggle-primary`, etc.
+- **File Input:** `file-input` (has border by default); `file-input-ghost` to remove
+- **Label:** `label` — used on `<label>` elements for form field labels
+- **Fieldset:** `fieldset` + `<legend>` — replaces old `form-control` wrapper
+
+### Data Display
+- **Table:** `table`, `table-zebra`, `table-pin-rows`, `table-pin-cols`
+- **Badge:** `badge`, `badge-primary`, `badge-secondary`, `badge-outline`, `badge-sm`, `badge-lg`
+- **Card:** `card`, `card-body`, `card-title`, `card-actions`; `card-border` for bordered; `card-sm` for compact
+- **Stat:** `stats`, `stat`, `stat-title`, `stat-value`, `stat-desc`
+- **List:** `list`
+- **Accordion:** `collapse`, `collapse-arrow`, `collapse-plus`
+- **Kbd:** `kbd`
+
+### Feedback
+- **Alert:** `alert`, `alert-info`, `alert-success`, `alert-warning`, `alert-error`
+- **Loading:** `loading`, `loading-spinner`, `loading-dots`, `loading-ring`
+- **Toast:** `toast` (positioned container for alerts)
+- **Tooltip:** `tooltip`, `tooltip-primary`, etc.
+- **Progress:** `progress`, `progress-primary`
+- **Skeleton:** `skeleton`
+
+### Navigation
+- **Navbar:** `navbar`, `navbar-start`, `navbar-center`, `navbar-end`
+- **Menu:** `menu`, `menu-horizontal`; item states: `menu-active`, `menu-disabled`, `menu-focus`
+- **Breadcrumbs:** `breadcrumbs`
+- **Tabs:** `tabs`, `tab`, `tab-active`; styles: `tabs-border`, `tabs-lift`, `tabs-box`
+- **Pagination:** `join` with `btn join-item`
+- **Steps:** `steps`, `step`, `step-primary`
+- **Link:** `link`, `link-primary`, `link-hover`
+
+### Layout
+- **Divider:** `divider`, `divider-horizontal`
+- **Drawer:** `drawer`, `drawer-toggle`, `drawer-content`, `drawer-side`
+- **Hero:** `hero`, `hero-content`, `hero-overlay`
+- **Join:** `join`, `join-item` (groups buttons/inputs)
+- **Indicator:** `indicator`, `indicator-item`
+- **Stack:** `stack`
+- **Footer:** `footer`, `md:footer-horizontal`
+
+## DaisyUI 5 Breaking Changes (from v4) — Do NOT Use These
+
+These v4 class names are **removed** in DaisyUI 5. Never use them:
+
+| Removed (v4)           | Use Instead (v5)                                    |
+|------------------------|-----------------------------------------------------|
+| `form-control`         | `fieldset` class on `<fieldset>` element            |
+| `label-text`           | `label` class on `<label>` element                  |
+| `label-text-alt`       | `label` class with normal Tailwind text utilities    |
+| `input-bordered`       | Not needed — `input` has border by default           |
+| `select-bordered`      | Not needed — `select` has border by default          |
+| `textarea-bordered`    | Not needed — `textarea` has border by default        |
+| `file-input-bordered`  | Not needed — `file-input` has border by default      |
+| `card-bordered`        | `card-border`                                        |
+| `card-compact`         | `card-sm`                                            |
+| `tabs-bordered`        | `tabs-border`                                        |
+| `tabs-lifted`          | `tabs-lift`                                          |
+| `tabs-boxed`           | `tabs-box`                                           |
+| `btn-group`            | `join` + `join-item` on children                     |
+| `input-group`          | `join` + `join-item` on children                     |
+| Table row `hover`      | `hover:bg-base-300` on `<tr>`                        |
+| `btm-nav`              | `dock`                                               |
+
+## Form Patterns (DaisyUI 5)
+
+Use `<fieldset class="fieldset">` with `<legend>` for form groups. Use `<label class="label">` for individual field labels.
+
+**Single field:**
+```blade
+<fieldset class="fieldset">
+    <label class="label" for="name">Name</label>
+    <input id="name" name="name" class="input w-full" placeholder="Enter name" />
+    @error('name')
+        <p class="text-error text-sm mt-1">{{ $message }}</p>
+    @enderror
+</fieldset>
+```
+
+**Select field:**
+```blade
+<fieldset class="fieldset">
+    <label class="label" for="course">Course</label>
+    <select id="course" name="course_id" class="select w-full">
+        <option disabled selected>Pick a course</option>
+        @foreach($courses as $course)
+            <option value="{{ $course->id }}">{{ $course->name }}</option>
+        @endforeach
+    </select>
+</fieldset>
+```
+
+**Grouped form:**
+```blade
+<fieldset class="fieldset">
+    <legend class="fieldset-legend">Applicant Details</legend>
+    <label class="label" for="first_name">First Name</label>
+    <input id="first_name" name="first_name" class="input w-full" />
+    <label class="label" for="last_name">Last Name</label>
+    <input id="last_name" name="last_name" class="input w-full" />
+</fieldset>
+```
+
+## Blade Component Architecture
+
+Place reusable UI wrappers in `resources/views/components/`. Use Blade anonymous components with props and slots.
+
+**Naming convention:** kebab-case, prefixed by domain when useful (e.g., `form-input.blade.php`, `data-table.blade.php`, `page-header.blade.php`).
+
+**Example — form input component:**
+```blade
+{{-- resources/views/components/form-input.blade.php --}}
+@props(['name', 'label', 'type' => 'text', 'required' => false, 'value' => ''])
+
+<fieldset class="fieldset">
+    <label class="label" for="{{ $name }}">
+        {{ $label }}
+        @if($required) <span class="text-error">*</span> @endif
+    </label>
+    <input
+        type="{{ $type }}"
+        id="{{ $name }}"
+        name="{{ $name }}"
+        value="{{ old($name, $value) }}"
+        class="input w-full @error($name) input-error @enderror"
+        {{ $required ? 'required' : '' }}
+        {{ $attributes }}
+    />
+    @error($name)
+        <p class="text-error text-sm mt-1">{{ $message }}</p>
+    @enderror
+</fieldset>
+```
+Usage: `<x-form-input name="email" label="Email" type="email" required />`
+
+**Example — data table component:**
+```blade
+{{-- resources/views/components/data-table.blade.php --}}
+@props(['headers'])
+
+<div class="overflow-x-auto">
+    <table class="table table-zebra">
+        <thead>
+            <tr>
+                @foreach($headers as $header)
+                    <th>{{ $header }}</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            {{ $slot }}
+        </tbody>
+    </table>
+</div>
+```
+Usage:
+```blade
+<x-data-table :headers="['Name', 'Email', 'Role', 'Actions']">
+    @foreach($users as $user)
+        <tr class="hover:bg-base-300">
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->email }}</td>
+            <td><span class="badge badge-primary badge-sm">{{ $user->role }}</span></td>
+            <td><a href="#" class="btn btn-ghost btn-xs">View</a></td>
+        </tr>
+    @endforeach
+</x-data-table>
+```
+
+## Livewire + DaisyUI Integration
+
+- Livewire components use the same DaisyUI classes in their Blade views.
+- Use `wire:model` on DaisyUI form elements (`input`, `select`, `textarea`, `checkbox`, `toggle`).
+- Use `wire:loading` with DaisyUI `loading` component for feedback: `<span wire:loading class="loading loading-spinner loading-sm"></span>`
+- Alpine.js drives client-only interactions (modals, dropdowns, tabs) without server roundtrip.
+
+**Modal pattern (Alpine.js + DaisyUI):**
+```blade
+<button class="btn btn-primary" onclick="document.getElementById('my-modal').showModal()">Open</button>
+<dialog id="my-modal" class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold">Title</h3>
+        <p class="py-4">Content here</p>
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
+</dialog>
+```
+
+## Theming and Colors
+
+- Use `data-theme` attribute on `<html>` for theme switching (already set to `"light"`).
+- Use DaisyUI semantic color classes, not raw Tailwind colors for themeable UI:
+  - `text-primary`, `bg-primary`, `border-primary`
+  - `text-secondary`, `bg-secondary`
+  - `text-accent`, `bg-accent`
+  - `text-neutral`, `bg-neutral`
+  - `text-base-content`, `bg-base-100`, `bg-base-200`, `bg-base-300`
+  - `text-info`, `text-success`, `text-warning`, `text-error`
+- Raw Tailwind colors (`text-slate-800`, `bg-white`) are acceptable for one-off elements that should not change with theme, but prefer DaisyUI semantic tokens for any themeable surface.
+
+## Responsive Design
+
+- DaisyUI components are responsive by default.
+- Use Tailwind responsive prefixes to adjust component sizing: `btn-sm md:btn-md`, `card-sm lg:card`.
+- Use `drawer` component for responsive sidebar navigation.
+- Use `overflow-x-auto` on table wrappers for mobile.
+
+## Accessibility
+
+- Use semantic HTML: `<button>` for actions, `<a>` for navigation, `<fieldset>`/`<legend>` for form groups.
+- DaisyUI components include sensible defaults; add `aria-label` when visual label is absent.
+- Use `sr-only` class (Tailwind) for screen-reader-only text.
+- Ensure color contrast meets WCAG AA — DaisyUI built-in themes comply by default.
+
+## What NOT to Do
+
+- **No hand-rolled buttons/inputs** — use DaisyUI `btn`, `input`, `select`.
+- **No arbitrary color values** (`bg-[#1b1b18]`) — use DaisyUI semantic tokens (`bg-base-content`, `bg-primary`).
+- **No `@apply`** — compose with utility classes directly in HTML.
+- **No external CSS files** beyond `app.css`.
+- **No v4 class names** — see the breaking changes table above.
+- **No inline `<style>` blocks** in Blade templates.
+- **No Bootstrap, Bulma, or other CSS frameworks** — DaisyUI + Tailwind only.

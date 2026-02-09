@@ -40,19 +40,18 @@
 
     Tailwind CSS & daisyUI
 
-    - Use Tailwind CSS for styling components, following a utility-first approach.
-    - Leverage daisyUI's pre-built components for quick UI development.
-    - Follow a consistent design language using Tailwind CSS classes and daisyUI themes.
-    - Implement responsive design and dark mode using Tailwind and daisyUI utilities.
-    - Optimize for accessibility (e.g., aria-attributes) when using components.
+    - Follow the **frontend-design-system** rule (`.cursor/rules/frontend-design-system.mdc`) for all styling decisions.
+    - DaisyUI 5 components first, Tailwind utilities for customization. No external CSS.
+    - Use DaisyUI semantic color tokens (`bg-primary`, `text-base-content`) over raw Tailwind colors.
+    - Optimize for accessibility (e.g., semantic HTML, aria-attributes) when using components.
 
     Dependencies
 
     - Laravel 11 (latest stable version)
     - Livewire 3.5+ for real-time, reactive components
     - Alpine.js for lightweight JavaScript interactions
-    - Tailwind CSS for utility-first styling
-    - daisyUI for pre-built UI components and themes
+    - Tailwind CSS 4 for utility-first styling
+    - daisyUI 5 for component classes and theming (see frontend-design-system rule for details)
     - Composer for dependency management
     - NPM/Yarn for frontend dependencies
 
@@ -86,6 +85,6 @@
     - Use Laravel's built-in authentication scaffolding.
     - Implement proper API resource transformations.
     - Use Laravel's event and listener system for decoupled code.
-    - Use Tailwind CSS and daisyUI for consistent and efficient styling.
+    - Use DaisyUI 5 + Tailwind CSS 4 per the frontend-design-system rule for consistent styling.
     - Implement complex UI patterns using Livewire and Alpine.js.
       
