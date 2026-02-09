@@ -39,7 +39,7 @@
 
 ### Step 4: Tests updated ✓
 
-- **ScanApiTest:** All tests use minimal QR payloads. Key new test: `test_session_edited_after_qr_generated_still_valid` — verifies that changing session room/date/time after QR generation doesn't invalidate the scan.
+- **ScanApiTest:** All tests use minimal QR payloads. Key new test: `test_session_edited_after_qr_generated_still_valid` — verifies that changing session room/date/time after QR tion doesn't invalidate the scan.
 - **ExamSessionApiTest:** `test_update_does_not_regenerate_qr_assignments_stay_valid` uses minimal payload format.
 
 ---

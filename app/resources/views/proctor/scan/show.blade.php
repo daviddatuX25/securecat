@@ -6,7 +6,7 @@
     $timeStr = ($session->start_time ?? '') . ' – ' . ($session->end_time ?? '');
     $courseLabel = $session->course ? ($session->course->code . ' — ' . $session->course->name) : '—';
 @endphp
-<div class="p-6 max-w-2xl" x-data="proctorScan(@js($sessionId), @js($dateStr), @js($timeStr), @js($courseLabel), @js($session->room?->name ?? '—'))" x-init="fetchAttendance()">
+<div class="max-w-2xl" x-data="proctorScan(@js($sessionId), @js($dateStr), @js($timeStr), @js($courseLabel), @js($session->room?->name ?? '—'))" x-init="fetchAttendance()">
     <div class="mb-4">
         <a href="/proctor/sessions" class="link link-hover text-sm">← My sessions</a>
         <h1 class="text-2xl font-bold mt-2">Scan check-in</h1>

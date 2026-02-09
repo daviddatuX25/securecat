@@ -1,30 +1,30 @@
 @extends('layouts.print')
 
 @section('content')
-<div class="max-w-md mx-auto border-2 border-base-300 rounded-lg p-6 bg-white">
-    <h1 class="text-xl font-bold text-center mb-4">Admission slip</h1>
+<div class="max-w-md mx-auto border-2 border-slate-200 rounded-xl p-6 bg-white shadow-sm">
+    <h1 class="text-xl font-bold text-slate-900 text-center mb-4">Admission slip</h1>
 
     <dl class="grid grid-cols-1 gap-2 mb-4">
         <div>
-            <dt class="text-sm text-base-content/60">Applicant</dt>
-            <dd class="font-semibold">{{ $applicantName }}</dd>
+            <dt class="text-sm text-slate-600">Applicant</dt>
+            <dd class="font-semibold text-slate-800">{{ $applicantName }}</dd>
         </div>
         <div>
-            <dt class="text-sm text-base-content/60">Course</dt>
-            <dd>{{ $courseCode }} — {{ $courseName }}</dd>
+            <dt class="text-sm text-slate-600">Course</dt>
+            <dd class="text-slate-800">{{ $courseCode }} — {{ $courseName }}</dd>
         </div>
         <div>
-            <dt class="text-sm text-base-content/60">Date & time</dt>
-            <dd>{{ $dateStr }} · {{ $timeStr }}</dd>
+            <dt class="text-sm text-slate-600">Date & time</dt>
+            <dd class="text-slate-800">{{ $dateStr }} · {{ $timeStr }}</dd>
         </div>
         <div>
-            <dt class="text-sm text-base-content/60">Room</dt>
-            <dd>{{ $roomName }}</dd>
+            <dt class="text-sm text-slate-600">Room</dt>
+            <dd class="text-slate-800">{{ $roomName }}</dd>
         </div>
         @if($assignment->seat_number)
         <div>
-            <dt class="text-sm text-base-content/60">Seat</dt>
-            <dd>{{ $assignment->seat_number }}</dd>
+            <dt class="text-sm text-slate-600">Seat</dt>
+            <dd class="text-slate-800">{{ $assignment->seat_number }}</dd>
         </div>
         @endif
     </dl>
@@ -36,9 +36,9 @@
             alt="QR code for verification"
             width="200"
             height="200"
-            class="border border-base-300"
+            class="border border-slate-200"
         >
     </div>
-    <p class="text-xs text-center text-base-content/50">Scan at exam venue for check-in</p>
+    <p class="text-xs text-center text-slate-500">Scan at exam venue for check-in</p>
 </div>
 @endsection

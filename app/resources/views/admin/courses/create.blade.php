@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-xl" x-data="courseForm()" x-init="fetchPeriods()">
+<div class="max-w-xl" x-data="courseForm()" x-init="fetchPeriods()">
     <div class="mb-6">
         <a href="/admin/courses" class="link link-hover text-sm">← Courses</a>
         <h1 class="text-2xl font-bold mt-2">New course</h1>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="auditLogIndex()" x-init="fetchData()">
+<div x-data="auditLogIndex()" x-init="fetchData()">
     <div class="mb-6">
         <a href="/admin/dashboard" class="link link-hover text-sm">← Dashboard</a>
         <h1 class="text-2xl font-bold mt-2">Audit log</h1>

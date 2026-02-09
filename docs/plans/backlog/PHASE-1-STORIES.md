@@ -312,3 +312,22 @@ Each story includes:
 | **Entities** | AuditLog |
 | **Security controls** | SC-01, SC-10 |
 | **IAS** | Confidentiality, Accountability |
+
+---
+
+## Future / Backlog (post–Phase 1)
+
+Stories and features captured for later phases. Tracked in beads; design may be expanded in `docs/plans/` when scheduled.
+
+### Admission slip without session + session juggle + examinee entry (beads)
+
+| Field | Value |
+|-------|--------|
+| **As a** | Admin or IT |
+| **I want** | to auto-generate an admission slip for an approved applicant even when no exam session is attached yet (e.g. right after approval) |
+| **So that** | the process is more streamlined; I can attach the applicant to an exam period and later assign or reassign to different sessions and juggle assignments |
+| **Also** | Admission slip (or a token/link on it) can serve as point of entry for the examinee to see their progress (Phase 2+; examinee portal is out of Phase 1 scope) |
+| **Phase** | TBD (likely Phase 1 extension or Phase 2) |
+| **Roles** | Admin, IT; later: Examinee (read-only progress) |
+| **Entities** | Application, ExamAssignment, ExamSession, AdmissionPeriod |
+| **Notes** | Current design: ExamAssignment requires exam_session_id; slip is per assignment. Options: (1) “Placeholder” assignment without session, then “Assign to session” fills it; (2) Slip by application_id with “Session TBA” until assigned; (3) Reassign endpoint: change exam_session_id on existing assignment (capacity checks both sessions). Beads: SecureCAT-b0t. |

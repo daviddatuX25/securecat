@@ -10,11 +10,13 @@ class ExampleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_root_redirects_guest_to_login(): void
+    public function test_root_shows_welcome_for_guest(): void
     {
         $response = $this->get('/');
 
-        $response->assertRedirect('/login');
+        $response->assertStatus(200);
+        $response->assertSee('Secure College Admission Testing', false);
+        $response->assertSee('Sign in', false);
     }
 
     public function test_root_redirects_admin_to_dashboard(): void

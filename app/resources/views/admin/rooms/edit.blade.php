@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-xl" x-data="roomEdit(@js($roomId))" x-init="fetchRoom()">
+<div class="max-w-xl" x-data="roomEdit(@js($roomId))" x-init="fetchRoom()">
     <div class="mb-6">
         <a href="/admin/rooms" class="link link-hover text-sm">← Rooms</a>
         <h1 class="text-2xl font-bold mt-2">Edit room</h1>

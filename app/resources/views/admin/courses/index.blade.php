@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="coursesIndex()" x-init="init()">
+<div x-data="coursesIndex()" x-init="init()">
     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
         <h1 class="text-2xl font-bold">Courses</h1>
         <a href="/admin/courses/new" class="btn btn-primary">New course</a>

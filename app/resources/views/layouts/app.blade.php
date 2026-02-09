@@ -11,58 +11,66 @@
 
         @livewireStyles
     </head>
-    <body class="min-h-screen bg-base-200">
+    <body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col">
         @auth
-            <div class="navbar bg-base-100 shadow-lg">
-                <div class="navbar-start">
-                    <span class="font-semibold">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</span>
-                    <span class="badge badge-primary badge-sm ml-2">{{ auth()->user()->role }}</span>
-                    @if(auth()->user()->role === 'admin')
-                        <nav class="ml-6 flex gap-4">
-                            <a href="/admin/dashboard" class="link link-hover text-sm">Dashboard</a>
-                            <a href="/admin/periods" class="link link-hover text-sm">Periods</a>
-                            <a href="/admin/courses" class="link link-hover text-sm">Courses</a>
-                            <a href="/admin/rooms" class="link link-hover text-sm">Rooms</a>
-                            <a href="/admin/sessions" class="link link-hover text-sm">Sessions</a>
-                            <a href="/admin/applications" class="link link-hover text-sm">Applications</a>
-                        </nav>
-                    @endif
-                    @if(auth()->user()->role === 'staff')
-                        <nav class="ml-6 flex gap-4">
-                            <a href="/staff/home" class="link link-hover text-sm">Home</a>
-                            <a href="/staff/encode" class="link link-hover text-sm">Encode Applicant</a>
-                        </nav>
-                    @endif
-                    @if(auth()->user()->role === 'proctor')
-                        <nav class="ml-6 flex gap-4">
-                            <a href="/proctor/sessions" class="link link-hover text-sm">My sessions</a>
-                        </nav>
-                    @endif
-                </div>
-                <div class="navbar-end">
+            <header class="bg-white border-b border-slate-200 px-6 py-4">
+                <nav class="max-w-4xl mx-auto flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <a href="{{ url('/') }}" class="text-xl font-semibold text-slate-800">{{ config('app.name') }}</a>
+                        <span class="font-medium text-slate-600">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</span>
+                        <span class="badge badge-primary badge-sm">{{ auth()->user()->role }}</span>
+                        @if(auth()->user()->role === 'admin')
+                            <a href="/admin/dashboard" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Dashboard</a>
+                            <a href="/admin/periods" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Periods</a>
+                            <a href="/admin/courses" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Courses</a>
+                            <a href="/admin/rooms" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Rooms</a>
+                            <a href="/admin/sessions" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Sessions</a>
+                            <a href="/admin/applications" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Applications</a>
+                        @endif
+                        @if(auth()->user()->role === 'staff')
+                            <a href="/staff/home" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Home</a>
+                            <a href="/staff/encode" class="link link-hover text-sm text-slate-600 hover:text-slate-900">Encode Applicant</a>
+                        @endif
+                        @if(auth()->user()->role === 'proctor')
+                            <a href="/proctor/sessions" class="link link-hover text-sm text-slate-600 hover:text-slate-900">My sessions</a>
+                        @endif
+                    </div>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
-                        <button type="submit" class="btn btn-ghost btn-sm">Log out</button>
+                        <button type="submit" class="btn btn-ghost btn-sm text-slate-600 hover:text-slate-900">Log out</button>
                     </form>
-                </div>
-            </div>
+                </nav>
+            </header>
         @endauth
 
         @if (session('error'))
-            <div class="container mx-auto px-4 py-2">
+            <div class="max-w-4xl mx-auto w-full px-6 py-2">
                 <div class="alert alert-warning shadow-lg">
                     <span>{{ session('error') }}</span>
                 </div>
             </div>
         @endif
+        @if (session('success'))
+            <div class="max-w-4xl mx-auto w-full px-6 py-2">
+                <div class="alert alert-success shadow-lg">
+                    <span>{{ session('success') }}</span>
+                </div>
+            </div>
+        @endif
 
-        <main class="container mx-auto">
+        <main class="flex-1 max-w-4xl mx-auto w-full px-6 py-12">
             @hasSection('content')
                 @yield('content')
             @else
                 {{ $slot ?? '' }}
             @endif
         </main>
+
+        @auth
+            <footer class="border-t border-slate-200 bg-white px-6 py-4 text-center text-sm text-slate-500">
+                Phase 1
+            </footer>
+        @endauth
 
         @livewireScripts
     </body>

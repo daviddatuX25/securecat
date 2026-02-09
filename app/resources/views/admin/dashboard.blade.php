@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="dashboardData()" x-init="fetchData()">
+<div x-data="dashboardData()" x-init="fetchData()">
     <h1 class="text-2xl font-bold mb-6">Admin Dashboard</h1>
 
     <template x-if="loading">

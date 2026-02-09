@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="attendanceReport()" x-init="fetchSessions()">
+<div x-data="attendanceReport()" x-init="fetchSessions()">
     <div class="mb-6">
         <a href="/admin/dashboard" class="link link-hover text-sm">← Dashboard</a>
         <h1 class="text-2xl font-bold mt-2">Attendance report</h1>

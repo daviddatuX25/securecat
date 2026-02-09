@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ExamSessionController as AdminExamSessionControll
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\RoomController as AdminRoomController;
 use App\Http\Controllers\Auth\WebLoginController;
+use App\Http\Controllers\Auth\WebRegisterController;
 use App\Http\Controllers\Print\AdmissionSlipController as PrintAdmissionSlipController;
 use App\Http\Controllers\Proctor\ProctorController as ProctorProctorController;
 use App\Http\Controllers\Staff\ApplicationController as StaffApplicationController;
@@ -15,10 +16,6 @@ use App\Http\Controllers\Staff\EncodeController as StaffEncodeController;
 use Illuminate\Support\Facades\Route;
 
 // Public
-Route::get('/login', fn () => view('auth.login'))->name('login')->middleware('guest');
-Route::post('/login', [WebLoginController::class, 'login'])->middleware('guest');
-
-// Root: redirect by auth state
 Route::get('/', fn () => auth()->check()
     ? redirect()->to(match (auth()->user()->role) {
         'admin' => '/admin/dashboard',
@@ -26,8 +23,12 @@ Route::get('/', fn () => auth()->check()
         'proctor' => '/proctor/home',
         default => '/login',
     })
-    : redirect()->route('login')
+    : view('welcome')
 )->middleware('web');
+Route::get('/login', fn () => view('auth.login'))->name('login')->middleware('guest');
+Route::post('/login', [WebLoginController::class, 'login'])->middleware('guest');
+Route::get('/register', fn () => view('auth.register'))->name('register')->middleware('guest');
+Route::post('/register', [WebRegisterController::class, 'store'])->middleware('guest');
 
 // Protected (auth + rbac)
 Route::middleware(['auth', 'rbac'])->group(function (): void {

@@ -25,7 +25,7 @@ class AdminApplicationsUiTest extends TestCase
 
         $response = $this->actingAs($admin)->get('/admin/applications');
 
-        $response->assertStatus(200)->assertSee('Approval queue');
+        $response->assertStatus(200)->assertSee('Applications');
     }
 
     public function test_admin_can_access_application_detail(): void

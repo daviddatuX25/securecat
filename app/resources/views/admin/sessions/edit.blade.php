@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-xl" x-data="sessionEdit(@js($sessionId), @js($proctors))" x-init="init()">
+<div class="max-w-xl" x-data="sessionEdit(@js($sessionId), @js($proctors))" x-init="init()">
     <div class="mb-6">
         <a href="/admin/sessions" class="link link-hover text-sm">← Exam sessions</a>
         <h1 class="text-2xl font-bold mt-2">Edit exam session</h1>

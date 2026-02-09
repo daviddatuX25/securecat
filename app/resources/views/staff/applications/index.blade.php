@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="staffApplicationsIndex()" x-init="init()">
+<div x-data="staffApplicationsIndex()" x-init="init()">
     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
             <a href="/staff/home" class="link link-hover text-sm">← Staff Home</a>

@@ -6,7 +6,7 @@
     $timeStr = ($session->start_time ?? '') . ' – ' . ($session->end_time ?? '');
     $courseLabel = $session->course ? ($session->course->code . ' — ' . $session->course->name) : '—';
 @endphp
-<div class="p-6" x-data="proctorAttendance(@js($sessionId), @js($dateStr), @js($timeStr), @js($courseLabel), @js($session->room?->name ?? '—'))" x-init="fetchAttendance()">
+<div x-data="proctorAttendance(@js($sessionId), @js($dateStr), @js($timeStr), @js($courseLabel), @js($session->room?->name ?? '—'))" x-init="fetchAttendance()">
     <div class="mb-4">
         <a href="/proctor/sessions" class="link link-hover text-sm">← My sessions</a>
         <h1 class="text-2xl font-bold mt-2">Attendance</h1>

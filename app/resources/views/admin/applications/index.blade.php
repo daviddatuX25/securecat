@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="applicationsIndex()" x-init="init()">
+<div x-data="applicationsIndex()" x-init="init()">
     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
         <h1 class="text-2xl font-bold">Applications</h1>
     </div>

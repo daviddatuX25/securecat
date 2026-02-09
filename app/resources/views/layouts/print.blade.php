@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-white p-6">
+<body class="min-h-screen bg-slate-50 p-6 print:bg-white">
     @yield('content')
     <div class="no-print mt-6">
         <button type="button" onclick="window.print()" class="btn btn-primary">Print</button>

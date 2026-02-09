@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="rosterReport()" x-init="fetchSessions()">
+<div x-data="rosterReport()" x-init="fetchSessions()">
     <div class="mb-6">
         <a href="/proctor/sessions" class="link link-hover text-sm">← My sessions</a>
         <h1 class="text-2xl font-bold mt-2">Session roster</h1>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-3xl" x-data="staffApplicationShow(@js($applicationId))" x-init="fetchApplication()">
+<div class="max-w-3xl" x-data="staffApplicationShow(@js($applicationId))" x-init="fetchApplication()">
     <div class="mb-6">
         <a href="/staff/applications" class="link link-hover text-sm">← My applications</a>
         <h1 class="text-2xl font-bold mt-2">Application detail</h1>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-xl" x-data="periodEdit(@js($periodId))" x-init="fetchPeriod()">
+<div class="max-w-xl" x-data="periodEdit(@js($periodId))" x-init="fetchPeriod()">
     <div class="mb-6">
         <a href="/admin/periods" class="link link-hover text-sm">← Admission periods</a>
         <h1 class="text-2xl font-bold mt-2">Edit admission period</h1>

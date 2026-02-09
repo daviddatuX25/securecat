@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-xl" x-data="reviseForm(@js($applicationId), @js($courses->toArray()))" x-init="init()">
+<div class="max-w-xl" x-data="reviseForm(@js($applicationId), @js($courses->toArray()))" x-init="init()">
     <div class="mb-6">
         <a :href="'/staff/applications/' + applicationId" class="link link-hover text-sm">← Back to application</a>
         <h1 class="text-2xl font-bold mt-2">Revise application</h1>

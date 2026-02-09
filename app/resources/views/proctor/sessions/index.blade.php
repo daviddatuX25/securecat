@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6" x-data="proctorSessions()" x-init="fetchSessions()">
+<div x-data="proctorSessions()" x-init="fetchSessions()">
     <h1 class="text-2xl font-bold">My sessions</h1>
     <p class="text-sm text-base-content/70 mt-1">Sessions assigned to you. Open Scan to check in applicants, or Attendance to view who has been scanned.</p>
 
