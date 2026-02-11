@@ -94,7 +94,7 @@ export function attachPasswordStrength(input, options = {}) {
 
     if (checklistEl) {
       const items = [
-        [result.checks.length, 'At least 8 characters'],
+        [result.checks.length, 'At least 8-12 characters'],
         [result.checks.lower, 'One lowercase letter'],
         [result.checks.upper, 'One uppercase letter'],
         [result.checks.number, 'One number'],

@@ -3,36 +3,49 @@
 @section('content')
 <div class="max-w-xl" x-data="periodForm()">
     <div class="mb-6">
-        <a href="/admin/periods" class="link link-hover text-sm">← Admission periods</a>
-        <h1 class="text-2xl font-bold mt-2">New admission period</h1>
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/periods">Admission Periods</a></li>
+                <li class="text-base-content/60">New</li>
+            </ul>
+        </div>
+        <h1 class="text-2xl font-bold">New admission period</h1>
+        <p class="text-base-content/70 text-sm mt-1">Create a new admission period to organize courses and applications by academic term.</p>
     </div>
 
     <form @submit.prevent="submit()" class="card bg-base-100 shadow">
         <div class="card-body space-y-4">
-            <div class="form-control">
-                <label class="label" for="name"><span class="label-text">Name</span></label>
-                <input id="name" type="text" x-model="form.name" class="input input-bordered w-full" placeholder="e.g. 2nd Semester AY 2026-2027" maxlength="255" required>
+            <fieldset class="fieldset">
+                <label class="label" for="name">Name <span class="text-error">*</span></label>
+                <input id="name" type="text" x-model="form.name" class="input w-full" placeholder="e.g. 2nd Semester AY 2026-2027" maxlength="255" required>
+                <p class="text-sm text-base-content/60 mt-1">Enter a descriptive name for this admission period (e.g., "1st Semester 2026" or "2nd Semester AY 2026-2027").</p>
                 <p class="text-error text-sm mt-1" x-show="errors.name" x-text="errors.name"></p>
+            </fieldset>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <fieldset class="fieldset">
+                    <label class="label" for="start_date">Start date <span class="text-error">*</span></label>
+                    <input id="start_date" type="date" x-model="form.start_date" class="input w-full" required>
+                    <p class="text-sm text-base-content/60 mt-1">First day applications are accepted for this period.</p>
+                    <p class="text-error text-sm mt-1" x-show="errors.start_date" x-text="errors.start_date"></p>
+                </fieldset>
+                <fieldset class="fieldset">
+                    <label class="label" for="end_date">End date <span class="text-error">*</span></label>
+                    <input id="end_date" type="date" x-model="form.end_date" class="input w-full" required>
+                    <p class="text-sm text-base-content/60 mt-1">Last day applications are accepted for this period.</p>
+                    <p class="text-error text-sm mt-1" x-show="errors.end_date" x-text="errors.end_date"></p>
+                </fieldset>
             </div>
-            <div class="form-control">
-                <label class="label" for="start_date"><span class="label-text">Start date</span></label>
-                <input id="start_date" type="date" x-model="form.start_date" class="input input-bordered w-full" required>
-                <p class="text-error text-sm mt-1" x-show="errors.start_date" x-text="errors.start_date"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="end_date"><span class="label-text">End date</span></label>
-                <input id="end_date" type="date" x-model="form.end_date" class="input input-bordered w-full" required>
-                <p class="text-error text-sm mt-1" x-show="errors.end_date" x-text="errors.end_date"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="status"><span class="label-text">Status</span></label>
-                <select id="status" x-model="form.status" class="select select-bordered w-full">
-                    <option value="draft">draft</option>
-                    <option value="active">active</option>
-                    <option value="closed">closed</option>
+            <fieldset class="fieldset">
+                <label class="label" for="status">Status</label>
+                <select id="status" x-model="form.status" class="select w-full">
+                    <option value="draft">Draft</option>
+                    <option value="active">Active</option>
+                    <option value="closed">Closed</option>
                 </select>
+                <p class="text-sm text-base-content/60 mt-1">Draft: not yet accepting applications. Active: accepting applications. Closed: period has ended.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.status" x-text="errors.status"></p>
-            </div>
+            </fieldset>
             <div class="flex gap-2 pt-2">
                 <button type="submit" class="btn btn-primary" :disabled="saving">
                     <span x-show="!saving">Create</span>

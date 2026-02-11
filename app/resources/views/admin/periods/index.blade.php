@@ -2,9 +2,20 @@
 
 @section('content')
 <div x-data="periodsIndex()" x-init="fetchPeriods()">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 class="text-2xl font-bold">Admission Periods</h1>
-        <a href="/admin/periods/new" class="btn btn-primary">New period</a>
+    <div class="mb-6">
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="text-base-content/60">Admission Periods</li>
+            </ul>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">Admission Periods</h1>
+                <p class="text-base-content/70 text-sm mt-1">Manage admission periods for organizing courses and applications by academic term.</p>
+            </div>
+            <a href="/admin/periods/new" class="btn btn-primary">New period</a>
+        </div>
     </div>
 
     <template x-if="loading">
@@ -22,12 +33,15 @@
     </template>
 
     <template x-if="!loading && !error && periods.length === 0">
-        <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <p class="text-base-content/70">No items yet. Create one.</p>
-                <a href="/admin/periods/new" class="btn btn-primary w-fit">New period</a>
-            </div>
-        </div>
+        <x-empty-state 
+            title="No admission periods yet"
+            description="Create your first admission period to start organizing courses and applications by academic term."
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-base-content/30 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <a href="/admin/periods/new" class="btn btn-primary">Create first period</a>
+        </x-empty-state>
     </template>
 
     <template x-if="!loading && !error && periods.length > 0">

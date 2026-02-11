@@ -2,9 +2,20 @@
 
 @section('content')
 <div x-data="roomsIndex()" x-init="init()">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 class="text-2xl font-bold">Rooms</h1>
-        <a href="/admin/rooms/new" class="btn btn-primary">New room</a>
+    <div class="mb-6">
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="text-base-content/60">Rooms</li>
+            </ul>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">Rooms</h1>
+                <p class="text-base-content/70 text-sm mt-1">Manage exam rooms and their capacity for scheduling exam sessions.</p>
+            </div>
+            <a href="/admin/rooms/new" class="btn btn-primary">New room</a>
+        </div>
     </div>
 
     <template x-if="loading">
@@ -22,12 +33,15 @@
     </template>
 
     <template x-if="!loading && !error && rooms.length === 0">
-        <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <p class="text-base-content/70">No items yet. Create one.</p>
-                <a href="/admin/rooms/new" class="btn btn-primary w-fit">New room</a>
-            </div>
-        </div>
+        <x-empty-state 
+            title="No rooms yet"
+            description="Create your first exam room to start scheduling exam sessions."
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-base-content/30 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <a href="/admin/rooms/new" class="btn btn-primary">Create first room</a>
+        </x-empty-state>
     </template>
 
     <template x-if="!loading && !error && rooms.length > 0">

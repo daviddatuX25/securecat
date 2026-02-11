@@ -3,77 +3,91 @@
 @section('content')
 <div class="max-w-xl" x-data="encodeForm(@js($courses->toArray()))" x-init="init()">
     <div class="mb-6">
-        <a href="/staff/home" class="link link-hover text-sm">← Staff Home</a>
-        <h1 class="text-2xl font-bold mt-2">Encode Applicant</h1>
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/staff/home">Staff Home</a></li>
+                <li class="text-base-content/60">Encode Applicant</li>
+            </ul>
+        </div>
+        <h1 class="text-2xl font-bold">Encode Applicant</h1>
         <p class="text-base-content/70 text-sm mt-1">Create applicant and application. First preferred course is required; second and third are optional (must be distinct).</p>
     </div>
 
     <form @submit.prevent="submit()" class="card bg-base-100 shadow">
         <div class="card-body space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="form-control">
-                    <label class="label" for="first_name"><span class="label-text">First name</span> <span class="label-text-alt text-error">required</span></label>
-                    <input id="first_name" type="text" x-model="form.first_name" class="input input-bordered w-full" placeholder="Juan" maxlength="100" required>
+                <fieldset class="fieldset">
+                    <label class="label" for="first_name">First name <span class="text-error">*</span></label>
+                    <input id="first_name" type="text" x-model="form.first_name" class="input w-full" placeholder="Juan" maxlength="100" required>
+                    <p class="text-sm text-base-content/60 mt-1">Enter the applicant's legal first name as it appears on official documents.</p>
                     <p class="text-error text-sm mt-1" x-show="errors.first_name" x-text="errors.first_name"></p>
-                </div>
-                <div class="form-control">
-                    <label class="label" for="last_name"><span class="label-text">Last name</span> <span class="label-text-alt text-error">required</span></label>
-                    <input id="last_name" type="text" x-model="form.last_name" class="input input-bordered w-full" placeholder="Dela Cruz" maxlength="100" required>
+                </fieldset>
+                <fieldset class="fieldset">
+                    <label class="label" for="last_name">Last name <span class="text-error">*</span></label>
+                    <input id="last_name" type="text" x-model="form.last_name" class="input w-full" placeholder="Dela Cruz" maxlength="100" required>
+                    <p class="text-sm text-base-content/60 mt-1">Enter the applicant's legal last name as it appears on official documents.</p>
                     <p class="text-error text-sm mt-1" x-show="errors.last_name" x-text="errors.last_name"></p>
-                </div>
+                </fieldset>
             </div>
-            <div class="form-control">
-                <label class="label" for="email"><span class="label-text">Email</span> <span class="label-text-alt text-base-content/60">optional</span></label>
-                <input id="email" type="email" x-model="form.email" class="input input-bordered w-full" placeholder="juan@email.com">
+            <fieldset class="fieldset">
+                <label class="label" for="email">Email</label>
+                <input id="email" type="email" x-model="form.email" class="input w-full" placeholder="juan@email.com">
+                <p class="text-sm text-base-content/60 mt-1">Optional. Used for notifications and communication.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.email" x-text="errors.email"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="contact_number"><span class="label-text">Contact number</span> <span class="label-text-alt text-base-content/60">optional</span></label>
-                <input id="contact_number" type="text" x-model="form.contact_number" class="input input-bordered w-full" placeholder="09171234567" maxlength="20">
+            </fieldset>
+            <fieldset class="fieldset">
+                <label class="label" for="contact_number">Contact number</label>
+                <input id="contact_number" type="text" x-model="form.contact_number" class="input w-full" placeholder="09171234567" maxlength="20">
+                <p class="text-sm text-base-content/60 mt-1">Optional. Mobile or landline number for contact purposes.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.contact_number" x-text="errors.contact_number"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="date_of_birth"><span class="label-text">Date of birth</span> <span class="label-text-alt text-error">required (age ≥ 15)</span></label>
-                <input id="date_of_birth" type="date" x-model="form.date_of_birth" class="input input-bordered w-full" required>
+            </fieldset>
+            <fieldset class="fieldset">
+                <label class="label" for="date_of_birth">Date of birth <span class="text-error">*</span></label>
+                <input id="date_of_birth" type="date" x-model="form.date_of_birth" class="input w-full" required>
+                <p class="text-sm text-base-content/60 mt-1">Required. Applicant must be at least 15 years old.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.date_of_birth" x-text="errors.date_of_birth"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="address"><span class="label-text">Address</span> <span class="label-text-alt text-base-content/60">optional</span></label>
-                <textarea id="address" x-model="form.address" class="textarea textarea-bordered w-full" rows="2" maxlength="500" placeholder="123 Main St"></textarea>
+            </fieldset>
+            <fieldset class="fieldset">
+                <label class="label" for="address">Address</label>
+                <textarea id="address" x-model="form.address" class="textarea w-full" rows="2" maxlength="500" placeholder="123 Main St"></textarea>
+                <p class="text-sm text-base-content/60 mt-1">Optional. Complete address including street, city, and province.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.address" x-text="errors.address"></p>
-            </div>
+            </fieldset>
 
             <div class="divider">Preferred courses</div>
-            <div class="form-control">
-                <label class="label" for="first_course_id"><span class="label-text">First preferred course</span> <span class="label-text-alt text-error">required</span></label>
-                <select id="first_course_id" x-model="form.first_course_id" class="select select-bordered w-full" required>
+            <fieldset class="fieldset">
+                <label class="label" for="first_course_id">First preferred course <span class="text-error">*</span></label>
+                <select id="first_course_id" x-model="form.first_course_id" class="select w-full" required>
                     <option value="">Select course</option>
                     <template x-for="c in courses" :key="c.id">
                         <option :value="c.id" x-text="c.name + ' (' + c.code + ')'"></option>
                     </template>
                 </select>
+                <p class="text-sm text-base-content/60 mt-1">Required. Select the applicant's first choice course.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.first_course_id" x-text="errors.first_course_id"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="second_course_id"><span class="label-text">Second preferred course</span> <span class="label-text-alt text-base-content/60">optional</span></label>
-                <select id="second_course_id" x-model="form.second_course_id" class="select select-bordered w-full">
+            </fieldset>
+            <fieldset class="fieldset">
+                <label class="label" for="second_course_id">Second preferred course</label>
+                <select id="second_course_id" x-model="form.second_course_id" class="select w-full">
                     <option value="">None</option>
                     <template x-for="c in courses" :key="'s-' + c.id">
                         <option :value="c.id" x-text="c.name + ' (' + c.code + ')'" :disabled="c.id == form.first_course_id || c.id == form.third_course_id"></option>
                     </template>
                 </select>
+                <p class="text-sm text-base-content/60 mt-1">Optional. Must be different from first and third choices.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.second_course_id" x-text="errors.second_course_id"></p>
-            </div>
-            <div class="form-control">
-                <label class="label" for="third_course_id"><span class="label-text">Third preferred course</span> <span class="label-text-alt text-base-content/60">optional</span></label>
-                <select id="third_course_id" x-model="form.third_course_id" class="select select-bordered w-full">
+            </fieldset>
+            <fieldset class="fieldset">
+                <label class="label" for="third_course_id">Third preferred course</label>
+                <select id="third_course_id" x-model="form.third_course_id" class="select w-full">
                     <option value="">None</option>
                     <template x-for="c in courses" :key="'t-' + c.id">
                         <option :value="c.id" x-text="c.name + ' (' + c.code + ')'" :disabled="c.id == form.first_course_id || c.id == form.second_course_id"></option>
                     </template>
                 </select>
+                <p class="text-sm text-base-content/60 mt-1">Optional. Must be different from first and second choices.</p>
                 <p class="text-error text-sm mt-1" x-show="errors.third_course_id" x-text="errors.third_course_id"></p>
-            </div>
+            </fieldset>
 
             <div class="flex gap-2 pt-2">
                 <button type="submit" class="btn btn-primary" :disabled="saving">

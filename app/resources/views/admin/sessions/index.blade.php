@@ -2,9 +2,20 @@
 
 @section('content')
 <div x-data="sessionsIndex()" x-init="init()">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 class="text-2xl font-bold">Exam sessions</h1>
-        <a href="/admin/sessions/new" class="btn btn-primary">New session</a>
+    <div class="mb-6">
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="text-base-content/60">Exam Sessions</li>
+            </ul>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">Exam Sessions</h1>
+                <p class="text-base-content/70 text-sm mt-1">Schedule exam sessions by assigning courses to rooms with proctors and dates.</p>
+            </div>
+            <a href="/admin/sessions/new" class="btn btn-primary">New session</a>
+        </div>
     </div>
 
     <template x-if="loading">
@@ -22,12 +33,15 @@
     </template>
 
     <template x-if="!loading && !error && sessions.length === 0">
-        <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <p class="text-base-content/70">No items yet. Create one.</p>
-                <a href="/admin/sessions/new" class="btn btn-primary w-fit">New session</a>
-            </div>
-        </div>
+        <x-empty-state 
+            title="No exam sessions yet"
+            description="Create your first exam session to schedule exams for courses. You'll need at least one course, room, and proctor."
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-base-content/30 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <a href="/admin/sessions/new" class="btn btn-primary">Create first session</a>
+        </x-empty-state>
     </template>
 
     <template x-if="!loading && !error && sessions.length > 0">

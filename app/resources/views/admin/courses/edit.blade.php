@@ -3,8 +3,15 @@
 @section('content')
 <div class="max-w-xl" x-data="courseEdit(@js($courseId))" x-init="fetchCourse(); fetchPeriods();">
     <div class="mb-6">
-        <a href="/admin/courses" class="link link-hover text-sm">← Courses</a>
-        <h1 class="text-2xl font-bold mt-2">Edit course</h1>
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/courses">Courses</a></li>
+                <li class="text-base-content/60">Edit</li>
+            </ul>
+        </div>
+        <h1 class="text-2xl font-bold">Edit course</h1>
+        <p class="text-base-content/70 text-sm mt-1">Update course information and details.</p>
     </div>
 
     <template x-if="loading">
@@ -24,31 +31,37 @@
     <template x-if="!loading && !notFound && form">
         <form @submit.prevent="submit()" class="card bg-base-100 shadow">
             <div class="card-body space-y-4">
-                <div class="form-control">
-                    <label class="label" for="admission_period_id"><span class="label-text">Admission period</span></label>
-                    <select id="admission_period_id" x-model="form.admission_period_id" class="select select-bordered w-full" required>
+                <fieldset class="fieldset">
+                    <label class="label" for="admission_period_id">Admission period <span class="text-error">*</span></label>
+                    <select id="admission_period_id" x-model="form.admission_period_id" class="select w-full" required>
                         <option value="">Select period</option>
                         <template x-for="p in periods" :key="p.id">
                             <option :value="p.id" x-text="p.name"></option>
                         </template>
                     </select>
+                    <p class="text-sm text-base-content/60 mt-1">Select the admission period this course belongs to.</p>
                     <p class="text-error text-sm mt-1" x-show="errors.admission_period_id" x-text="errors.admission_period_id"></p>
+                </fieldset>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <fieldset class="fieldset">
+                        <label class="label" for="name">Name <span class="text-error">*</span></label>
+                        <input id="name" type="text" x-model="form.name" class="input w-full" maxlength="255" required>
+                        <p class="text-sm text-base-content/60 mt-1">Full name of the course program.</p>
+                        <p class="text-error text-sm mt-1" x-show="errors.name" x-text="errors.name"></p>
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <label class="label" for="code">Code <span class="text-error">*</span></label>
+                        <input id="code" type="text" x-model="form.code" class="input w-full" maxlength="20" required>
+                        <p class="text-sm text-base-content/60 mt-1">Course code must be 2-20 characters, uppercase letters and numbers.</p>
+                        <p class="text-error text-sm mt-1" x-show="errors.code" x-text="errors.code"></p>
+                    </fieldset>
                 </div>
-                <div class="form-control">
-                    <label class="label" for="name"><span class="label-text">Name</span></label>
-                    <input id="name" type="text" x-model="form.name" class="input input-bordered w-full" maxlength="255" required>
-                    <p class="text-error text-sm mt-1" x-show="errors.name" x-text="errors.name"></p>
-                </div>
-                <div class="form-control">
-                    <label class="label" for="code"><span class="label-text">Code</span></label>
-                    <input id="code" type="text" x-model="form.code" class="input input-bordered w-full" maxlength="20" required>
-                    <p class="text-error text-sm mt-1" x-show="errors.code" x-text="errors.code"></p>
-                </div>
-                <div class="form-control">
-                    <label class="label" for="description"><span class="label-text">Description (optional)</span></label>
-                    <textarea id="description" x-model="form.description" class="textarea textarea-bordered w-full" rows="3" maxlength="2000"></textarea>
+                <fieldset class="fieldset">
+                    <label class="label" for="description">Description</label>
+                    <textarea id="description" x-model="form.description" class="textarea w-full" rows="3" maxlength="2000"></textarea>
+                    <p class="text-sm text-base-content/60 mt-1">Optional. Brief description of the course program.</p>
                     <p class="text-error text-sm mt-1" x-show="errors.description" x-text="errors.description"></p>
-                </div>
+                </fieldset>
                 <div class="flex flex-wrap gap-2 pt-2">
                     <button type="submit" class="btn btn-primary" :disabled="saving">
                         <span x-show="!saving">Save</span>

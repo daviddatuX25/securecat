@@ -3,8 +3,15 @@
 @section('content')
 <div class="max-w-xl" x-data="roomEdit(@js($roomId))" x-init="fetchRoom()">
     <div class="mb-6">
-        <a href="/admin/rooms" class="link link-hover text-sm">← Rooms</a>
-        <h1 class="text-2xl font-bold mt-2">Edit room</h1>
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/rooms">Rooms</a></li>
+                <li class="text-base-content/60">Edit</li>
+            </ul>
+        </div>
+        <h1 class="text-2xl font-bold">Edit room</h1>
+        <p class="text-base-content/70 text-sm mt-1">Update room details and capacity.</p>
     </div>
 
     <template x-if="loading">
@@ -24,21 +31,26 @@
     <template x-if="!loading && !notFound && form">
         <form @submit.prevent="submit()" class="card bg-base-100 shadow">
             <div class="card-body space-y-4">
-                <div class="form-control">
-                    <label class="label" for="name"><span class="label-text">Name</span></label>
-                    <input id="name" type="text" x-model="form.name" class="input input-bordered w-full" maxlength="100" required>
-                    <p class="text-error text-sm mt-1" x-show="errors.name" x-text="errors.name"></p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <fieldset class="fieldset">
+                        <label class="label" for="name">Name <span class="text-error">*</span></label>
+                        <input id="name" type="text" x-model="form.name" class="input w-full" maxlength="100" required>
+                        <p class="text-sm text-base-content/60 mt-1">Room identifier (e.g., "Room 101" or "Lab 3").</p>
+                        <p class="text-error text-sm mt-1" x-show="errors.name" x-text="errors.name"></p>
+                    </fieldset>
+                    <fieldset class="fieldset">
+                        <label class="label" for="capacity">Capacity <span class="text-error">*</span></label>
+                        <input id="capacity" type="number" x-model.number="form.capacity" class="input w-full" min="1" required>
+                        <p class="text-sm text-base-content/60 mt-1">Maximum number of examinees this room can accommodate.</p>
+                        <p class="text-error text-sm mt-1" x-show="errors.capacity" x-text="errors.capacity"></p>
+                    </fieldset>
                 </div>
-                <div class="form-control">
-                    <label class="label" for="capacity"><span class="label-text">Capacity</span></label>
-                    <input id="capacity" type="number" x-model.number="form.capacity" class="input input-bordered w-full" min="1" required>
-                    <p class="text-error text-sm mt-1" x-show="errors.capacity" x-text="errors.capacity"></p>
-                </div>
-                <div class="form-control">
-                    <label class="label" for="location_notes"><span class="label-text">Location notes (optional)</span></label>
-                    <textarea id="location_notes" x-model="form.location_notes" class="textarea textarea-bordered w-full" rows="2" maxlength="1000"></textarea>
+                <fieldset class="fieldset">
+                    <label class="label" for="location_notes">Location notes</label>
+                    <textarea id="location_notes" x-model="form.location_notes" class="textarea w-full" rows="2" maxlength="1000"></textarea>
+                    <p class="text-sm text-base-content/60 mt-1">Optional. Additional location details to help examinees find the room.</p>
                     <p class="text-error text-sm mt-1" x-show="errors.location_notes" x-text="errors.location_notes"></p>
-                </div>
+                </fieldset>
                 <div class="flex flex-wrap gap-2 pt-2">
                     <button type="submit" class="btn btn-primary" :disabled="saving">
                         <span x-show="!saving">Save</span>

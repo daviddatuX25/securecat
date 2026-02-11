@@ -2,19 +2,32 @@
 
 @section('content')
 <div x-data="coursesIndex()" x-init="init()">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 class="text-2xl font-bold">Courses</h1>
-        <a href="/admin/courses/new" class="btn btn-primary">New course</a>
+    <div class="mb-6">
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="text-base-content/60">Courses</li>
+            </ul>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">Courses</h1>
+                <p class="text-base-content/70 text-sm mt-1">Manage course programs available for each admission period.</p>
+            </div>
+            <a href="/admin/courses/new" class="btn btn-primary">New course</a>
+        </div>
     </div>
 
-    <div class="mb-4 flex flex-wrap items-center gap-2" x-show="periods.length > 0">
-        <label class="label text-sm">Filter by period</label>
-        <select x-model="filterPeriodId" @change="fetchCourses()" class="select select-bordered select-sm w-64">
-            <option value="">All periods</option>
-            <template x-for="p in periods" :key="p.id">
-                <option :value="p.id" x-text="p.name"></option>
-            </template>
-        </select>
+    <div class="mb-4" x-show="periods.length > 0">
+        <fieldset class="fieldset">
+            <label class="label text-xs py-0">Filter by period</label>
+            <select x-model="filterPeriodId" @change="fetchCourses()" class="select select-sm w-64">
+                <option value="">All periods</option>
+                <template x-for="p in periods" :key="p.id">
+                    <option :value="p.id" x-text="p.name"></option>
+                </template>
+            </select>
+        </fieldset>
     </div>
 
     <template x-if="loading">
@@ -32,12 +45,15 @@
     </template>
 
     <template x-if="!loading && !error && courses.length === 0">
-        <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <p class="text-base-content/70">No items yet. Create one.</p>
-                <a href="/admin/courses/new" class="btn btn-primary w-fit">New course</a>
-            </div>
-        </div>
+        <x-empty-state 
+            title="No courses yet"
+            description="Create your first course to make it available for applicants to choose from."
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-base-content/30 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 7l-9-5 9-5 9 5-9 5z"/>
+            </svg>
+            <a href="/admin/courses/new" class="btn btn-primary">Create first course</a>
+        </x-empty-state>
     </template>
 
     <template x-if="!loading && !error && courses.length > 0">

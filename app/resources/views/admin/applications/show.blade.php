@@ -3,8 +3,15 @@
 @section('content')
 <div class="max-w-3xl" x-data="applicationShow(@js($applicationId))" x-init="fetchApplication(); fetchSessions();">
     <div class="mb-6">
-        <a href="/admin/applications" class="link link-hover text-sm">← Applications</a>
-        <h1 class="text-2xl font-bold mt-2">Application detail</h1>
+        <div class="breadcrumbs text-sm mb-2">
+            <ul>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/applications">Applications</a></li>
+                <li class="text-base-content/60">Application Detail</li>
+            </ul>
+        </div>
+        <h1 class="text-2xl font-bold">Application detail</h1>
+        <p class="text-base-content/70 text-sm mt-1">Review applicant information and course preferences, then approve, reject, or request revision.</p>
     </div>
 
     <template x-if="loading">
@@ -25,18 +32,28 @@
         <div class="space-y-6">
             <div class="card bg-base-100 shadow">
                 <div class="card-body">
-                    <h2 class="card-title">Applicant</h2>
-                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <dt class="font-medium text-base-content/70">Name</dt>
-                        <dd x-text="applicantName(app.applicant)"></dd>
-                        <dt class="font-medium text-base-content/70">Email</dt>
-                        <dd x-text="app.applicant?.email || '—'"></dd>
-                        <dt class="font-medium text-base-content/70">Contact</dt>
-                        <dd x-text="app.applicant?.contact_number || '—'"></dd>
-                        <dt class="font-medium text-base-content/70">Date of birth</dt>
-                        <dd x-text="app.applicant?.date_of_birth || '—'"></dd>
-                        <dt class="font-medium text-base-content/70">Address</dt>
-                        <dd x-text="app.applicant?.address || '—'" class="col-span-2"></dd>
+                    <h2 class="card-title text-lg">Applicant Information</h2>
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm mt-3">
+                        <div class="flex justify-between sm:block">
+                            <dt class="text-base-content/50 text-xs font-medium">Name</dt>
+                            <dd class="font-medium sm:block" x-text="applicantName(app.applicant)"></dd>
+                        </div>
+                        <div class="flex justify-between sm:block">
+                            <dt class="text-base-content/50 text-xs font-medium">Email</dt>
+                            <dd class="sm:block" x-text="app.applicant?.email || '—'"></dd>
+                        </div>
+                        <div class="flex justify-between sm:block">
+                            <dt class="text-base-content/50 text-xs font-medium">Contact</dt>
+                            <dd class="sm:block" x-text="app.applicant?.contact_number || '—'"></dd>
+                        </div>
+                        <div class="flex justify-between sm:block">
+                            <dt class="text-base-content/50 text-xs font-medium">Date of birth</dt>
+                            <dd class="sm:block" x-text="app.applicant?.date_of_birth || '—'"></dd>
+                        </div>
+                        <div class="flex justify-between sm:block sm:col-span-2">
+                            <dt class="text-base-content/50 text-xs font-medium">Address</dt>
+                            <dd class="sm:block" x-text="app.applicant?.address || '—'"></dd>
+                        </div>
                     </dl>
                 </div>
             </div>

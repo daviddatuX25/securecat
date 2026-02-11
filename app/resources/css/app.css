@@ -1,6 +1,58 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* ═══════════════════════════════════════════════════
+   SecureCAT Custom Theme
+   Brand Primary: #1f3a5f (Dark Navy)
+   ═══════════════════════════════════════════════════ */
+@plugin "daisyui/theme" {
+    name: "securecat";
+    default: true;
+    color-scheme: light;
+
+    /* Base palette — white with subtle cool tint */
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(97% 0.003 250);
+    --color-base-300: oklch(92.5% 0.006 250);
+    --color-base-content: oklch(23% 0.02 250);
+
+    /* Primary — brand navy #1f3a5f */
+    --color-primary: oklch(31% 0.065 250);
+    --color-primary-content: oklch(100% 0 0);
+
+    /* Secondary — softer blue-gray */
+    --color-secondary: oklch(50% 0.045 250);
+    --color-secondary-content: oklch(100% 0 0);
+
+    /* Accent — brighter blue for CTAs */
+    --color-accent: oklch(58% 0.16 245);
+    --color-accent-content: oklch(100% 0 0);
+
+    /* Neutral — dark navy for sidebar/footer */
+    --color-neutral: oklch(25% 0.03 255);
+    --color-neutral-content: oklch(95% 0.005 250);
+
+    /* Semantic feedback */
+    --color-info: oklch(68% 0.16 240);
+    --color-info-content: oklch(100% 0 0);
+    --color-success: oklch(64% 0.17 155);
+    --color-success-content: oklch(100% 0 0);
+    --color-warning: oklch(82% 0.16 80);
+    --color-warning-content: oklch(25% 0.04 60);
+    --color-error: oklch(60% 0.22 25);
+    --color-error-content: oklch(100% 0 0);
+
+    /* Shape tokens */
+    --radius-selector: 1.5rem;
+    --radius-field: 0.375rem;
+    --radius-box: 0.75rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
